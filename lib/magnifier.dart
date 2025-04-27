@@ -48,31 +48,27 @@ class Magnifier extends StatefulWidget {
   final CustomPainter painter;
 
   const Magnifier(
-      {@required this.child,
+      {super.key,
       this.enabled = true,
       this.scale = 1.2,
       this.size = const Size(80, 80),
       this.painter = const MagnifierPainter(),
-      Key key})
-      : super(key: key);
+      required this.child});
 
   @override
-  _MagnifierState createState() => _MagnifierState();
+  _Magnifier createState() => _Magnifier();
 }
 
-class _MagnifierState extends State<Magnifier> {
-  Size _magnifierSize;
-  double _scale;
-  BorderRadius _radius;
+class _Magnifier extends State<Magnifier> {
+  late Size _magnifierSize = widget.size;
+  late double _scale = widget.scale;
+  late BorderRadius _radius = BorderRadius.circular(_magnifierSize.longestSide);
 
   Offset _magnifierPosition = Offset(0, 0);
   Matrix4 matrix = Matrix4.identity();
 
   @override
   void initState() {
-    _magnifierSize = widget.size;
-    _scale = widget.scale;
-    _radius = BorderRadius.circular(_magnifierSize.longestSide);
     matrix = Matrix4.identity()..scale(widget.scale);
     super.initState();
   }
